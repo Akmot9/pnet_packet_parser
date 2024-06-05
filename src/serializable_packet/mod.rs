@@ -100,6 +100,42 @@ impl ParsedPacket {
     }
 }
 
+use std::fmt;
+
+impl fmt::Display for ParsedPacket {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "ParsedPacket {{\n")?;
+        write!(f, "  id: {},\n", self.id)?;
+        
+        if let Some(link_layer_packet) = &self.link_layer_packet {
+            write!(f, "  link_layer_packet: {:?},\n", link_layer_packet)?;
+        } else {
+            write!(f, "  link_layer_packet: None,\n")?;
+        }
+
+        if let Some(network_layer_packet) = &self.network_layer_packet {
+            write!(f, "  network_layer_packet: {:?},\n", network_layer_packet)?;
+        } else {
+            write!(f, "  network_layer_packet: None,\n")?;
+        }
+
+        if let Some(transport_layer_packet) = &self.transport_layer_packet {
+            write!(f, "  transport_layer_packet: {:?},\n", transport_layer_packet)?;
+        } else {
+            write!(f, "  transport_layer_packet: None,\n")?;
+        }
+
+        if let Some(application_layer_packet) = &self.application_layer_packet {
+            write!(f, "  application_layer_packet: {:?},\n", application_layer_packet)?;
+        } else {
+            write!(f, "  application_layer_packet: None,\n")?;
+        }
+
+        write!(f, "}}")
+    }
+}
+
+
 /// All possible packet serialization options
 #[derive(Serialize, Debug, Clone)]
 #[serde(tag = "type", content = "packet")]
